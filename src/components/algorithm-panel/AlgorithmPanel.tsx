@@ -75,8 +75,80 @@ export function AlgorithmPanel({ barNumber, algorithm }: AlgorithmPanelProps) {
       }
 
       sort(arr)
-    }
+    },
 
+    async (arr: number[]) => {
+      // Cocktail Sort
+      let swapped = true;
+      let start = 0;
+      let end = arr.length - 1;
+  
+      while (swapped) {
+        swapped = false;
+  
+        for (let i = start; i < end; i++) {
+          if (arr[i] > arr[i + 1]) {
+            const temp = arr[i];
+            arr[i] = arr[i + 1];
+            arr[i + 1] = temp;
+            swapped = true;
+          }
+          setAccessedBarIndex(i);
+          setComparedBarIndex(i + 1);
+          setBars([...arr]);
+          await new Promise((resolve) => setTimeout(resolve, 10));
+        }
+  
+        if (!swapped) break;
+  
+        swapped = false;
+        end--;
+  
+        for (let i = end - 1; i >= start; i--) {
+          if (arr[i] > arr[i + 1]) {
+            const temp = arr[i];
+            arr[i] = arr[i + 1];
+            arr[i + 1] = temp;
+            swapped = true;
+          }
+          setAccessedBarIndex(i);
+          setComparedBarIndex(i + 1);
+          setBars([...arr]);
+          await new Promise((resolve) => setTimeout(resolve, 10));
+        }
+  
+        start++;
+      }
+  
+      setAccessedBarIndex(null);
+      setComparedBarIndex(null);
+    },
+    async (arr: number[]) =>{
+      const getDigit = (num: number, place: number) => Math.floor(Math.abs(num) / Math.pow(10, place)) % 10;
+      const digitCount = (num: number) => (num === 0 ? 1 : Math.floor(Math.log10(Math.abs(num))) + 1);
+      const getMaxDigitCount = (arr: number[]) => Math.max(...arr.map(digitCount));
+  
+      const maxDigitCount = getMaxDigitCount(arr);
+  
+      for (let k = 0; k < maxDigitCount; k++) {
+        let digitBuckets: number[][] = Array.from({ length: 10 }, () => []);
+        for (let i = 0; i < arr.length; i++) {
+          const digit = getDigit(arr[i], k);
+          digitBuckets[digit].push(arr[i]);
+          setAccessedBarIndex(i);
+          setComparedBarIndex(null);
+          setBars([...arr]);
+          await new Promise((resolve) => setTimeout(resolve, 10));
+        }
+        arr = ([] as number[]).concat(...digitBuckets);
+        setAccessedBarIndex(null);
+        setComparedBarIndex(null);
+        setBars([...arr]);
+        await new Promise((resolve) => setTimeout(resolve, 10));
+      }
+  
+      return arr;
+    }
   ];
 
   return (

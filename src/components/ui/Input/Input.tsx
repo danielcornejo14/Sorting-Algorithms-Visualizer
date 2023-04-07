@@ -1,5 +1,4 @@
-import { useState } from "react"
-
+import './Input.scss'
 interface InputProps {
     type: 'text' | 'number'
     max: number,
@@ -16,7 +15,7 @@ export function Input({ type, max, min, value, onChange, onBlur }: InputProps){
       };
 
     return(
-        <input type={type} max={max} min={min} value={value} onChange={handleChange} onBlur={onBlur}/>
+        <input className='input' type={type} max={max} min={min} value={value} onChange={handleChange} onBlur={onBlur}/>
     )
 
 }

@@ -1,4 +1,4 @@
-
+import './Select.scss'
 interface SelectProps {
     options: options[];
     onChange: (selectedValue: number) => void;
@@ -15,10 +15,10 @@ export function Select({ options, onChange }: SelectProps) {
         onChange(selectedValue);
     }
     return (
-        <select onChange={handleSelectChange}>
+        <select className="select" onChange={handleSelectChange}>
             {options.map((item) => {
                 return (
-                    <option value={item.value}>{item.label}</option>
+                    <option className="option" value={item.value}>{item.label}</option>
                 )
             })}
         </select>

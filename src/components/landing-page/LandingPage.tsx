@@ -5,6 +5,7 @@ import { Select } from "../ui/Select/Select";
 import { Input } from "../ui/Input/Input";
 import { useState } from "react";
 import { Card } from "../ui/Card/Card";
+import { CardHeader } from "../ui/Card/CardHeader/CardHeader";
 
 export function LandingPage() {
 
@@ -19,6 +20,14 @@ export function LandingPage() {
     {
       value: 2,
       label: 'Quick Sort'
+    },
+    {
+      value: 3,
+      label: 'Cocktail Sort'
+    },
+    {
+      value: 4,
+      label: 'Radix Sort'
     }
   ]
 
@@ -34,12 +43,12 @@ export function LandingPage() {
   ]
 
   const min = 75
-  const max = 200
-  const [value, setValue] = useState<number>(Math.ceil((min+max)/2))
+  const max = 1000
+  const [barCount, setBarCount] = useState<number>(Math.ceil((min+max)/2))
   const [algorithm, setAlgorithm] = useState<number>(1)
 
   const handleChange = (newValue: number) => {
-      setValue(newValue)
+      setBarCount(newValue)
   }
 
   const handleAlgorithmChange = (newValue: number) => {
@@ -47,14 +56,14 @@ export function LandingPage() {
   }
 
   const correctInput = () => {
-      if(value < min){
-          setValue(min)
+      if(barCount < min){
+          setBarCount(min)
       }
-      else if(value > max){
-          setValue(max)
+      else if(barCount > max){
+          setBarCount(max)
       }
-      else if(isNaN(value)){
-          setValue(min)
+      else if(isNaN(barCount)){
+          setBarCount(min)
       }
   }
 
@@ -66,7 +75,7 @@ export function LandingPage() {
       {content.map((item) => {
         return (
           <Card cardOptions={{appearance: "raised"}}>
-            <h2 className="header">{item.title}</h2>
+            <CardHeader title={item.title}></CardHeader>
             <p>{item.content}</p>
           </Card>
         )
@@ -75,9 +84,9 @@ export function LandingPage() {
       <Container direction="column" align="center" justify="center">
         <Container direction="row" align="center" justify="space-around" color={cardColor} width="90%" margin={cardMargin}>
           <Select options={algorithms} onChange={handleAlgorithmChange}></Select>
-          <Input type="number" min={min} max={max} value={value} onChange={handleChange} onBlur={correctInput}></Input>
+          <Input type="number" min={min} max={max} value={barCount} onChange={handleChange} onBlur={correctInput}></Input>
         </Container>
-        <AlgorithmPanel barNumber={value} algorithm={algorithm-1}></AlgorithmPanel>
+        <AlgorithmPanel barNumber={barCount} algorithm={algorithm-1}></AlgorithmPanel>
       </Container>
 
     </Container>
