@@ -1,4 +1,4 @@
-const bubbleSort = require('./Sorts').bubbleSort
+const {bubbleSort} = require('./Sorts')
 
 describe('bubbleSort', () => {
     it('should sort an array in ascending order', async () => {
